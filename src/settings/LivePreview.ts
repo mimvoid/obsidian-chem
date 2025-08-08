@@ -7,11 +7,8 @@ export class LivePreview {
   darkCard: HTMLDivElement;
   settings: ChemPluginSettings;
 
-  constructor(
-    private readonly el: HTMLElement,
-    private readonly argSettings: ChemPluginSettings,
-  ) {
-    this.container = this.el.createEl("div");
+  constructor(el: HTMLElement, argSettings: ChemPluginSettings) {
+    this.container = el.createEl("div");
     this.container.style.display = `flex`;
     this.container.style.flexWrap = `wrap`;
     this.container.style.justifyContent = `center`;
@@ -23,7 +20,7 @@ export class LivePreview {
       cls: "chemcard theme-dark",
     });
 
-    this.settings = this.argSettings;
+    this.settings = argSettings;
   }
 
   render = () => {
@@ -42,15 +39,13 @@ export class LivePreview {
     );
 
     if (this.settings.commonOptions.scale == 0)
-      this.container.style.gridTemplateColumns = `repeat(auto-fill, minmax(${(
-        this.settings?.commonOptions.unifiedWidth ?? 300
-      ).toString()}px, 1fr)`;
+      this.container.style.gridTemplateColumns = `repeat(auto-fill, minmax(${
+        this.settings?.commonOptions.unifiedWidth ?? "300"
+      }px, 1fr)`;
     else
-      this.container.style.gridTemplateColumns = `repeat(auto-fill, minmax(${(lightWidth >
-      darkWidth
-        ? lightWidth
-        : darkWidth
-      ).toString()}px, 1fr)`;
+      this.container.style.gridTemplateColumns = `repeat(auto-fill, minmax(${
+        lightWidth > darkWidth ? lightWidth : darkWidth
+      }px, 1fr)`;
   };
 
   updateSettings = (newSettings: ChemPluginSettings) => {

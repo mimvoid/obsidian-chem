@@ -71,24 +71,25 @@ export default class RDKitCore implements ChemCore {
     const w = svg.width.baseVal.value;
     const h = svg.height.baseVal.value;
     const r = w / h;
-    const scale = this.settings.commonOptions.scale ?? 1;
+
     if (this.settings.commonOptions.scale == 0) {
-      svg.style.width = `${(
-        this.settings?.commonOptions.unifiedWidth ?? 300
-      ).toString()}px`;
-      svg.style.height = `${(
+      svg.style.width = `${
+        this.settings.commonOptions?.unifiedWidth ?? "300"
+      }px`;
+      svg.style.height = `${
         (this.settings.commonOptions?.unifiedWidth ?? 300) / r
-      ).toString()}px`;
-    } else if (w * scale > (this.settings.commonOptions?.width ?? 300)) {
-      svg.style.width = `${(
-        this.settings.commonOptions?.width ?? 300
-      ).toString()}px`;
-      svg.style.height = `${(
-        (this.settings.commonOptions?.width ?? 300) / r
-      ).toString()}px`;
-    } else if (w * scale <= (this.settings.commonOptions?.width ?? 300)) {
-      svg.style.width = `${(w * scale).toString()}px`;
-      svg.style.height = `${(h * scale).toString()}px`;
+      }px`;
+    } else {
+      const scale = this.settings.commonOptions.scale ?? 1;
+      const settingsWidth = this.settings.commonOptions?.width ?? 300;
+
+      if (w * scale > settingsWidth) {
+        svg.style.width = `${settingsWidth}px`;
+        svg.style.height = `${settingsWidth / r}px`;
+      } else {
+        svg.style.width = `${w * scale}px`;
+        svg.style.height = `${h * scale}px`;
+      }
     }
 
     return svg;

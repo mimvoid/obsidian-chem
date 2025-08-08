@@ -54,16 +54,16 @@ export class SmilesBlock extends MarkdownRenderChild {
       rows.forEach(async (row) => {
         const cell = table.createDiv({ cls: "chem-cell" });
         const svgcell = await this.renderCell(row, cell);
-        if (parseFloat(svgcell.style.width) > maxWidth) {
-          const r =
-            parseFloat(svgcell.style.width) / parseFloat(svgcell.style.height);
-          svgcell.style.width = `${maxWidth.toString()}px`;
-          svgcell.style.height = `${(maxWidth / r).toString()}px`;
+        const cellWidth = parseFloat(svgcell.style.width);
+        if (cellWidth > maxWidth) {
+          const r = cellWidth / parseFloat(svgcell.style.height);
+          svgcell.style.width = `${maxWidth}px`;
+          svgcell.style.height = `${maxWidth / r}px`;
         }
       });
 
       table.style.gridTemplateColumns = `repeat(auto-fill, minmax(${
-        this.settings.commonOptions.width?.toString() ?? "300"
+        this.settings.commonOptions.width ?? "300"
       }px, 1fr)`;
     }
   }
@@ -121,9 +121,7 @@ export class SmilesBlock extends MarkdownRenderChild {
     target.appendChild(svg);
 
     if (this.settings.commonOptions.scale == 0)
-      svg.style.width = `${
-        this.settings.commonOptions.unifiedWidth?.toString() ?? 300
-      }px`;
+      svg.style.width = `${this.settings.commonOptions.unifiedWidth ?? "300"}px`;
     return svg;
   };
 

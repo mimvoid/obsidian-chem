@@ -45,7 +45,7 @@ class InlineWidget extends WidgetType {
   }
 
   eq(other: InlineWidget): boolean {
-    return other.source === this.source ? true : false;
+    return other.source === this.source;
   }
 
   toDOM(): HTMLElement {
@@ -90,9 +90,7 @@ export function inlinePlugin(settings: ChemPluginSettings) {
     target.appendChild(svg);
 
     if (settings.commonOptions.scale == 0)
-      svg.style.width = `${
-        settings.commonOptions.unifiedWidth?.toString() ?? 300
-      }px`;
+      svg.style.width = `${settings.commonOptions.unifiedWidth ?? "300"}px`;
     return svg;
   };
 
@@ -130,13 +128,10 @@ export function inlinePlugin(settings: ChemPluginSettings) {
             to,
             enter: ({ node }) => {
               const { render, isQuery } = this.renderNode(view, node);
-              if (!render && isQuery) {
-                this.removeDeco(node);
-                return;
-              } else if (!render) {
-                return;
-              } else if (render) {
+              if (render) {
                 this.addDeco(node, view);
+              } else if (isQuery) {
+                this.removeDeco(node);
               }
             },
           });
@@ -192,12 +187,12 @@ export function inlinePlugin(settings: ChemPluginSettings) {
           const end = node.to;
           const selection = view.state.selection;
           if (selectionAndRangeOverlap(selection, start - 1, end + 1)) {
-            if (this.isInlineSmiles(view, start, end)) {
-              return { render: false, isQuery: true };
-            } else {
-              return { render: false, isQuery: false };
-            }
-          } else if (this.isInlineSmiles(view, start, end)) {
+            return {
+              render: false,
+              isQuery: this.isInlineSmiles(view, start, end),
+            };
+          }
+          if (this.isInlineSmiles(view, start, end)) {
             return { render: true, isQuery: true };
           }
         }

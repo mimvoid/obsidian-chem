@@ -364,9 +364,7 @@ export class ChemSettingTab extends PluginSettingTab {
 
     // Initialize
     preview.render();
-    if (
-      (this.plugin.settings.smilesDrawerOptions.moleculeOptions.scale ?? 1) == 0
-    )
+    if (this.plugin.settings.smilesDrawerOptions.moleculeOptions.scale === 0)
       unifyImageWidth();
     else unifyBondLength();
   }

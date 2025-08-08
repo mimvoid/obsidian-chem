@@ -50,20 +50,19 @@ export default class SmilesDrawerCore implements ChemCore {
 
     this.core.draw(source, svg, theme, () => {}, errorCb);
 
-    if (this.settings.commonOptions.scale == 0)
-      svg.style.width = `${(
-        this.settings?.commonOptions.unifiedWidth ?? 300
-      ).toString()}px`;
-    else if (
-      parseFloat(svg.style.width) > (this.settings.commonOptions?.width ?? 300)
-    ) {
-      const r = parseFloat(svg.style.width) / parseFloat(svg.style.height);
-      svg.style.width = `${(
-        this.settings.commonOptions?.width ?? 300
-      ).toString()}px`;
-      svg.style.height = `${(
-        (this.settings.commonOptions?.width ?? 300) / r
-      ).toString()}px`;
+    if (this.settings.commonOptions.scale == 0) {
+      svg.style.width = `${
+        this.settings?.commonOptions.unifiedWidth ?? "300"
+      }px`;
+    } else {
+      const cellWidth = parseFloat(svg.style.width);
+      const settingsWidth = this.settings.commonOptions?.width ?? 300;
+
+      if (cellWidth > settingsWidth) {
+        const r = cellWidth / parseFloat(svg.style.height);
+        svg.style.width = `${settingsWidth}px`;
+        svg.style.height = `${settingsWidth / r}px`;
+      }
     }
 
     if (errorDiv.innerHTML) return errorDiv;

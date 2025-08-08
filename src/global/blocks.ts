@@ -11,7 +11,8 @@ export const addBlock = (block: SmilesBlock) => {
 };
 
 export const removeBlock = (block: SmilesBlock) => {
-  if (gBlocks.indexOf(block) != -1) gBlocks.splice(gBlocks.indexOf(block), 1);
+  const index = gBlocks.indexOf(block);
+  if (index != -1) gBlocks.splice(index, 1);
 };
 
 // TODO: late refresh

@@ -3,17 +3,20 @@ import { refreshBlocks } from "src/global/blocks";
 export const themeObserver = new MutationObserver(function (mutations) {
   mutations.forEach(function (mutation) {
     const target = mutation.target as HTMLElement;
+    const hassDark = mutation.oldValue?.contains("theme-dark");
+    const hasLight = mutation.oldValue?.contains("theme-light");
+
     if (
       // dark -> dark & light -> light
-      mutation.oldValue?.contains("theme-dark") &&
-      !mutation.oldValue?.contains("theme-light") && // key line, avoid calling twice
+      hassDark &&
+      !hasLight && // key line, avoid calling twice
       target.classList.value.contains("theme-light")
     ) {
       refreshBlocks();
     } else if (
       // light -> empty -> dark
-      mutation.oldValue?.contains("theme-light") && // key line, avoid calling twice
-      !mutation.oldValue?.contains("theme-dark") &&
+      hasLight && // key line, avoid calling twice
+      !hassDark &&
       target.classList.value.contains("theme-dark")
     ) {
       refreshBlocks();
