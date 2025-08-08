@@ -1,17 +1,17 @@
-import { SmilesBlock } from '../SmilesBlock';
+import { SmilesBlock } from "../SmilesBlock";
 
 export let gBlocks: SmilesBlock[];
 
 export const setBlocks = () => {
-	gBlocks = new Array<SmilesBlock>();
+  gBlocks = new Array<SmilesBlock>();
 };
 
 export const addBlock = (block: SmilesBlock) => {
-	gBlocks.push(block);
+  gBlocks.push(block);
 };
 
 export const removeBlock = (block: SmilesBlock) => {
-	if (gBlocks.indexOf(block) != -1) gBlocks.splice(gBlocks.indexOf(block), 1);
+  if (gBlocks.indexOf(block) != -1) gBlocks.splice(gBlocks.indexOf(block), 1);
 };
 
 // TODO: late refresh
@@ -19,15 +19,15 @@ export const removeBlock = (block: SmilesBlock) => {
 // however, we only want to see the instances refreshed when the file is activated
 // file info is in the ctx of the block, and activate attribute is in the leaf metadata
 export const refreshBlocks = () => {
-	if (!gBlocks) return;
-	gBlocks.forEach((block) => {
-		block.render();
-	});
+  if (!gBlocks) return;
+  gBlocks.forEach((block) => {
+    block.render();
+  });
 };
 
 export const clearBlocks = () => {
-	if (!gBlocks) return;
-	gBlocks.forEach((block) => {
-		removeBlock(block);
-	});
+  if (!gBlocks) return;
+  gBlocks.forEach((block) => {
+    removeBlock(block);
+  });
 };
