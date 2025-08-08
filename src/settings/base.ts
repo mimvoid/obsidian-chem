@@ -17,7 +17,7 @@ export const SETTINGS_VERSION = "v3";
 //   };
 // };
 
-const migrate_1_3 = (v1: ChemPluginSettingsV1): ChemPluginSettingsV3 => {
+function migrate_1_3(v1: ChemPluginSettingsV1): ChemPluginSettingsV3 {
   v1 = { ...DEFAULT_SETTINGS_V1, ...v1 };
   return {
     ...DEFAULT_SETTINGS_V3,
@@ -29,9 +29,9 @@ const migrate_1_3 = (v1: ChemPluginSettingsV1): ChemPluginSettingsV3 => {
       unifiedWidth: parseInt(v1.width),
     },
   };
-};
+}
 
-const migrate_2_3 = (v2: ChemPluginSettingsV2): ChemPluginSettingsV3 => {
+function migrate_2_3(v2: ChemPluginSettingsV2): ChemPluginSettingsV3 {
   v2 = { ...DEFAULT_SETTINGS_V2, ...v2 };
   return {
     ...DEFAULT_SETTINGS_V3,
@@ -63,13 +63,13 @@ const migrate_2_3 = (v2: ChemPluginSettingsV2): ChemPluginSettingsV3 => {
       explicitMethyl: v2.options.terminalCarbons,
     },
   };
-};
+}
 
-const migrate_3_3 = (draft: ChemPluginSettingsV3): ChemPluginSettingsV3 => {
+function migrate_3_3(draft: ChemPluginSettingsV3): ChemPluginSettingsV3 {
   return { ...DEFAULT_SETTINGS, ...draft };
-};
+}
 
-export const migrateSettings = (draft: any): ChemPluginSettingsV3 => {
+export function migrateSettings(draft: any): ChemPluginSettingsV3 {
   if (!draft || Object.keys(draft).length === 0) return DEFAULT_SETTINGS;
   if (!("version" in draft))
     return migrate_1_3(draft); // v1

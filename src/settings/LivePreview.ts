@@ -23,7 +23,7 @@ export class LivePreview {
     this.settings = argSettings;
   }
 
-  render = () => {
+  render() {
     this.lightCard.empty();
     const lightWidth = this.renderCell(
       this.settings.sample1,
@@ -46,20 +46,16 @@ export class LivePreview {
       this.container.style.gridTemplateColumns = `repeat(auto-fill, minmax(${
         lightWidth > darkWidth ? lightWidth : darkWidth
       }px, 1fr)`;
-  };
+  }
 
-  updateSettings = (newSettings: ChemPluginSettings) => {
+  updateSettings(newSettings: ChemPluginSettings) {
     this.settings = newSettings;
-  };
+  }
 
-  private renderCell = async (
-    source: string,
-    target: HTMLElement,
-    theme: string,
-  ) => {
+  private async renderCell(source: string, target: HTMLElement, theme: string) {
     const svg = await gRenderCore.draw(source, theme);
     target.appendChild(svg);
 
     return parseFloat(svg.style.width);
-  };
+  }
 }

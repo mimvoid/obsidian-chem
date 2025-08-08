@@ -1,7 +1,7 @@
 import { refreshBlocks } from "src/global/blocks";
 
-export const themeObserver = new MutationObserver(function (mutations) {
-  mutations.forEach(function (mutation) {
+export const themeObserver = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
     const target = mutation.target as HTMLElement;
     const hassDark = mutation.oldValue?.contains("theme-dark");
     const hasLight = mutation.oldValue?.contains("theme-light");
@@ -24,14 +24,14 @@ export const themeObserver = new MutationObserver(function (mutations) {
   });
 });
 
-export const setObserver = () => {
+export function setObserver() {
   themeObserver.observe(document.body, {
     attributes: true,
     attributeOldValue: true,
     attributeFilter: ["class"],
   });
-};
+}
 
-export const detachObserver = () => {
+export function detachObserver() {
   themeObserver.disconnect();
-};
+}

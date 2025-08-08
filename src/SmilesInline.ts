@@ -44,11 +44,11 @@ class InlineWidget extends WidgetType {
     super();
   }
 
-  eq(other: InlineWidget): boolean {
+  eq(other: InlineWidget) {
     return other.source === this.source;
   }
 
-  toDOM(): HTMLElement {
+  toDOM() {
     return this.el;
   }
 
@@ -57,7 +57,7 @@ class InlineWidget extends WidgetType {
    * Mostly useful for links, and makes results selectable.
    * If the widgets should always be expandable, make this always return false.
    */
-  ignoreEvent(event: MouseEvent | Event): boolean {
+  ignoreEvent(event: MouseEvent | Event) {
     // instanceof check does not work in pop-out windows, so check it like this
     if (event.type === "mousedown") {
       const currentPos = this.view.posAtCoords({
@@ -142,11 +142,11 @@ export function inlinePlugin(settings: ChemPluginSettings) {
         this.decorations.between(
           node.from - 1,
           node.to + 1,
-          (from, to, value) => {
+          (from, to, _value) => {
             this.decorations = this.decorations.update({
               filterFrom: from,
               filterTo: to,
-              filter: (from, to, value) => false,
+              filter: (_from, _to, _value) => false,
             });
           },
         );
@@ -156,7 +156,7 @@ export function inlinePlugin(settings: ChemPluginSettings) {
         const from = node.from - 1;
         const to = node.to + 1;
         let exists = false;
-        this.decorations.between(from, to, (from, to, value) => {
+        this.decorations.between(from, to, (_from, _to, _value) => {
           exists = true;
         });
         if (!exists) {

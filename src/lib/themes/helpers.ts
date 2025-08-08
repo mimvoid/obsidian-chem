@@ -25,7 +25,7 @@ export function hex2RGB(hex: string): RGBDecimal {
 /**
  * @param {RGBDecimal} rgb a number array with each part betweeen 0-1
  **/
-export function RGB2hex(rgb: RGBDecimal): string {
+export function RGB2hex(rgb: RGBDecimal) {
   return (
     "#" +
     rgb

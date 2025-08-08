@@ -22,7 +22,7 @@ export class ChemSettingTab extends PluginSettingTab {
     this.plugin = plugin;
   }
 
-  display(): void {
+  display() {
     const { containerEl } = this;
 
     containerEl.empty();
@@ -369,9 +369,11 @@ export class ChemSettingTab extends PluginSettingTab {
     else unifyBondLength();
   }
 
-  hide(): void {
+  hide() {
     refreshBlocks();
   }
 
-  updateCore = () => updateCoreSettings(this.plugin.settings);
+  updateCore() {
+    updateCoreSettings(this.plugin.settings);
+  }
 }

@@ -6,10 +6,10 @@ import RDKitCore from "../lib/core/rdkitCore";
 
 export let gRenderCore: ChemCore;
 
-export const setCore = async (
+export async function setCore(
   settings: ChemPluginSettings,
   onFallback: (error: string) => void,
-) => {
+) {
   if (!gRenderCore || settings.core !== gRenderCore.id) {
     if (settings.core === "smiles-drawer") {
       gRenderCore = new SmilesDrawerCore(settings);
@@ -25,18 +25,18 @@ export const setCore = async (
       onFallback(`invalid chem core id. ${settings.core}`);
     }
   }
-};
+}
 
-export const setFallbackCore = async (settings: ChemPluginSettings) => {
+export async function setFallbackCore(settings: ChemPluginSettings) {
   gRenderCore = new SmilesDrawerCore(settings);
   updateCoreSettings(settings);
-};
+}
 
-export const updateCoreSettings = (settings: ChemPluginSettings) => {
+export function updateCoreSettings(settings: ChemPluginSettings) {
   gRenderCore.settings = settings;
-};
+}
 
-export const clearCore = () => {
+export function clearCore() {
   const rdkitBundler = document.getElementById("chem-rdkit-bundler");
   if (rdkitBundler) document.body.removeChild(rdkitBundler);
 
@@ -48,4 +48,4 @@ export const clearCore = () => {
   delete window.SmilesDrawer;
   //@ts-ignore
   delete window.SmiDrawer;
-};
+}

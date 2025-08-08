@@ -40,10 +40,7 @@ export default class RDKitCore implements ChemCore {
     return new RDKitCore(settings, window.RDKit);
   }
 
-  draw = async (
-    source: string,
-    theme: string = getCurrentTheme(this.settings),
-  ) => {
+  async draw(source: string, theme = getCurrentTheme(this.settings)) {
     let svgstr = "";
 
     if (source.includes(">")) {
@@ -93,9 +90,9 @@ export default class RDKitCore implements ChemCore {
     }
 
     return svg;
-  };
+  }
 
-  private drawReaction = async (rxn: JSReaction) => {
+  private async drawReaction(rxn: JSReaction) {
     const svgstr = rxn.get_svg_with_highlights(
       JSON.stringify({
         width: -1,
@@ -103,9 +100,9 @@ export default class RDKitCore implements ChemCore {
       }),
     );
     return svgstr;
-  };
+  }
 
-  private drawMolecule = async (mol: JSMol, theme: string) => {
+  private async drawMolecule(mol: JSMol, theme: string) {
     //TODO: AbbrColour -> palette[0]
     const palette = convertToRDKitTheme(theme);
     const svgstr = mol.get_svg_with_highlights(
@@ -129,9 +126,9 @@ export default class RDKitCore implements ChemCore {
       }),
     );
     return svgstr;
-  };
+  }
 
-  private logError = (source: string) => {
+  private logError(source: string) {
     const div = createDiv();
     div
       .createDiv("error-source")
@@ -141,12 +138,12 @@ export default class RDKitCore implements ChemCore {
     div.style.wordBreak = `break-word`;
     div.style.userSelect = `text`;
     return div;
-  };
+  }
 }
 
 // Credits to fenjalien/obsidian-typst for the idea of loading local wasm by building object url.
 // Initialize reference: https://github.com/rdkit/rdkit-js/tree/master/typescript
-const loadRDKit = async () => {
+async function loadRDKit() {
   const assetPath = normalizePath(
     [app.vault.configDir, "plugins", "chem", "rdkit"].join("/"),
   );
@@ -177,10 +174,10 @@ const loadRDKit = async () => {
   });
   URL.revokeObjectURL(url);
   return RDKit;
-};
+}
 
 // See https://github.com/rdkit/rdkit-js/issues/160
-const loadRDKitUnpkg = async () => {
+async function loadRDKitUnpkg() {
   const rdkitBundler = document.body.createEl("script");
   new Notice("Fetching RDKit.js from unpkg...");
 
@@ -193,9 +190,9 @@ const loadRDKitUnpkg = async () => {
   });
   new Notice("RDKit.js has been successfully loaded.");
   return RDKit;
-};
+}
 
-const fetchAsset = async (target: string, localPath: string) => {
+async function fetchAsset(target: string, localPath: string) {
   const assetInfo = await requestUrl(
     `https://api.github.com/repos/acylation/obsidian-chem/releases/tags/${
       app.plugins.getPlugin("chem")?.manifest.version ?? "0.4.0"
@@ -209,9 +206,9 @@ const fetchAsset = async (target: string, localPath: string) => {
     headers: { Accept: "application/octet-stream" },
   }).arrayBuffer;
   await app.vault.adapter.writeBinary(localPath, data);
-};
+}
 
-const checkOrDownload = async (target: string) => {
+async function checkOrDownload(target: string) {
   const assetPath = normalizePath(
     [app.vault.configDir, "plugins", "chem", "rdkit", target].join("/"),
   );
@@ -226,4 +223,4 @@ const checkOrDownload = async (target: string) => {
       throw Error(`Failed to fetch resource ${target} from GitHub release.`);
     }
   }
-};
+}

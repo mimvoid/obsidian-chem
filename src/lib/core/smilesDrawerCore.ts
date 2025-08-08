@@ -26,10 +26,7 @@ export default class SmilesDrawerCore implements ChemCore {
     );
   }
 
-  draw = async (
-    source: string,
-    theme: string = getCurrentTheme(this.settings),
-  ) => {
+  async draw(source: string, theme: string = getCurrentTheme(this.settings)) {
     const svg = createSvg("svg");
     svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
     svg.setAttribute("data-smiles", source);
@@ -67,5 +64,5 @@ export default class SmilesDrawerCore implements ChemCore {
 
     if (errorDiv.innerHTML) return errorDiv;
     return svg;
-  };
+  }
 }

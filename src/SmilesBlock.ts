@@ -68,7 +68,7 @@ export class SmilesBlock extends MarkdownRenderChild {
     }
   }
 
-  private preprocess = async (source: string) => {
+  private async preprocess(source: string) {
     const dvEl = this.el.createDiv();
     this.el.appendChild(dvEl);
     const api = gDataview.localApi(this.context.sourcePath, this, dvEl);
@@ -110,22 +110,22 @@ export class SmilesBlock extends MarkdownRenderChild {
 
     dvEl.remove();
     return source;
-  };
+  }
 
-  private renderCell = async (
+  private async renderCell(
     source: string,
     target: HTMLElement,
     theme?: string, // theme override for copy&export
-  ) => {
+  ) {
     const svg = await gRenderCore.draw(source, theme);
     target.appendChild(svg);
 
     if (this.settings.commonOptions.scale == 0)
       svg.style.width = `${this.settings.commonOptions.unifiedWidth ?? "300"}px`;
     return svg;
-  };
+  }
 
-  private handleContextMenu = (event: MouseEvent) => {
+  private async handleContextMenu(event: MouseEvent) {
     const targetEl = event.target as HTMLElement;
     const closestSVG =
       targetEl.tagName === "svg" ? targetEl : targetEl.closest("svg");
@@ -145,7 +145,7 @@ export class SmilesBlock extends MarkdownRenderChild {
         });
     });
     menu.showAtMouseEvent(event);
-  };
+  }
 
   async onload() {
     this.theme = getCurrentTheme(this.settings);
